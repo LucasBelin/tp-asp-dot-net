@@ -102,15 +102,15 @@ INSERT INTO ItemOrder VALUES
 
 
 -- Test queries
-select name, type, amount, price * amount as total_price, status from Item
-inner join ItemOrder on Item.id_item = ItemOrder.id_item
-where ItemOrder.id_order = 3;
+-- select name, type, amount, price * amount as total_price, status from Item
+-- inner join ItemOrder on Item.id_item = ItemOrder.id_item
+-- where ItemOrder.id_order = 3;
 
-select name, type, amount, price, status from Item
-inner join ItemOrder on Item.id_item = ItemOrder.id_item
-where ItemOrder.id_order = 4 and ItemOrder.id_item = 1;
+-- select name, type, amount, price, status from Item
+-- inner join ItemOrder on Item.id_item = ItemOrder.id_item
+-- where ItemOrder.id_order = 4 and ItemOrder.id_item = 1;
 
-select name, type, amount, price * amount as total_price, ItemOrder.status as item_status, CustomerOrder.status as order_status from (CustomerOrder
-inner join ItemOrder on CustomerOrder.id_order = ItemOrder.id_order)
-inner join Item on ItemOrder.id_item = Item.id_item
-where CustomerOrder.id_order = 3;
+-- select name, type, amount, price * amount as total_price, ItemOrder.status as item_status, CustomerOrder.status as order_status from (CustomerOrder
+-- inner join ItemOrder on CustomerOrder.id_order = ItemOrder.id_order)
+-- inner join Item on ItemOrder.id_item = Item.id_item
+-- where CustomerOrder.id_order = 3;
