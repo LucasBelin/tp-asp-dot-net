@@ -1,0 +1,49 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 2rem;
+  width: 100%;
+  background-color: rgba(255, 255, 255);
+  border-radius: 10px;
+  align-self: center;
+  position: relative;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333;
+  border-bottom: 2px solid #e1c699;
+  margin-bottom: 1rem;
+}
+
+.left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.orders {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-new-order {
+  justify-self: flex-end;
+  cursor: pointer;
+  border: 2px solid #333;
+  color: #333;
+  font-weight: 500;
+  background-color: transparent;
+  padding: 0.2rem 0.4rem;
+  border-radius: 5px;
+}
+
+.btn-new-order:hover {
+  color: white;
+  background-color: #e1c699;
+  border: 2px solid #e1c699;
+}

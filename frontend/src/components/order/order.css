@@ -1,0 +1,27 @@
+.order-status {
+  color: #333;
+  font-weight: 500;
+  font-size: smaller;
+}
+
+.order-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.dropdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.dropdown img {
+  width: 15px;
+  height: 15px;
+}
+
+select {
+  border-radius: 5px;
+  cursor: pointer;
+}
