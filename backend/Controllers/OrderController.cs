@@ -15,9 +15,9 @@ namespace backend.Controllers
         }
 
         [HttpGet(Name = "GetOrderById")]
-        public CustomerOrder GetOrderById(int id)
+        public CustomerOrder GetOrderById([FromBody] int id)
         {
-            return Context.GetOrderById(id);
+            return Context.GetCustomerOrderById(id);
         }
     }
 }

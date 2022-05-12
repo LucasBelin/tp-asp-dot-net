@@ -1,6 +1,6 @@
 import React from "react"
 import "./groups.css"
-import Group from "../group/Group"
+import Group from "../../components/group/Group"
 
 function Groups({ groups }) {
   return (
