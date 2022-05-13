@@ -62,7 +62,7 @@ namespace backend.Models
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                string query = "select Item.id_item, name, type, amount, price * amount as total_price, ItemOrder.status as item_status " +
+                string query = "select id_item_order, Item.id_item, name, type, amount, price * amount as total_price, ItemOrder.status as item_status " +
                     "from (CustomerOrder inner join ItemOrder on CustomerOrder.id_order = ItemOrder.id_order) " +
                     "inner join Item on ItemOrder.id_item = Item.id_item where CustomerOrder.id_order = @id";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
@@ -74,6 +74,7 @@ namespace backend.Models
                     {
                         items.Add(new ItemOrder()
                         {
+                            Id =reader.GetInt32("id_item_order"),
                             Item = new Item() {
                                 Id = reader.GetInt32("id_item"),
                                 Name = reader.GetString("name"),
@@ -135,6 +136,20 @@ namespace backend.Models
                 cmd.Parameters.AddWithValue("@iditem", idItem);
                 cmd.Parameters.AddWithValue("@idorder", idCustomerOrder);
                 cmd.Parameters.AddWithValue("@amount", amount);
+                return cmd.ExecuteNonQuery();
+            }
+        }
+
+        public int UpdateItemOrderStatus(int id, string newStatus)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string query = "update ItemOrder set status = @newstatus where id_item_order = @idorder";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@newstatus", newStatus);
+                cmd.Parameters.AddWithValue("@idorder", id);
+
                 return cmd.ExecuteNonQuery();
             }
         }

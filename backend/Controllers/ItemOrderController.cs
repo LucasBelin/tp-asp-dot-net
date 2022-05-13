@@ -14,9 +14,16 @@ namespace backend.Controllers
 
         [Route("/createItemOrder")]
         [HttpPost]
-        public int CreateItemOrder( int idCustomerOrder, int idItem, int amount)
+        public int CreateItemOrder(int idCustomerOrder, int idItem, int amount)
         {
             return Context.CreateItemOrder(idCustomerOrder, idItem, amount);
+        }
+
+        [Route("/updateItemOrderStatus")]
+        [HttpPut]
+        public int UpdateItemOrderStatus(int id, string newStatus)
+        {
+            return Context.UpdateItemOrderStatus(id, newStatus);
         }
     }
 }
