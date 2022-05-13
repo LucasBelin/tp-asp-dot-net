@@ -6,11 +6,13 @@ import { createCustomerOrder, getCustomerOrders } from "../../services/customer-
 function Groups() {
   const [customerOrders, setCustomerOrders] = useState([])
 
+  const fetchCustomerOrders = async () => {
+    const result = await getCustomerOrders()
+    if (!result || result.length <= 0) return
+    setCustomerOrders(result)
+  }
+
   useEffect(() => {
-    async function fetchCustomerOrders() {
-      const result = await getCustomerOrders()
-      setCustomerOrders(result)
-    }
     fetchCustomerOrders()
   }, [])
 
@@ -18,7 +20,14 @@ function Groups() {
     <div className="groups">
       <div className="groups-top">
         <h2 className="groups-title">Orders</h2>
-        <button onClick={createCustomerOrder}>Create order</button>
+        <button
+          onClick={async () => {
+            await createCustomerOrder()
+            await fetchCustomerOrders()
+          }}
+        >
+          Create order
+        </button>
       </div>
       <div className="groups-container">
         {customerOrders.map((order, i) => (

@@ -15,13 +15,15 @@ function Group({ group }) {
   const [items, setItems] = useState([])
   const [currentItems, setCurrentItems] = useState([])
 
-  useEffect(() => {
-    async function fetchItemOrders() {
-      const result = await getItemsForCustomerOrder(group.id)
-      setItemOrders(result)
-    }
-    fetchItemOrders()
+  const fetchItemOrders = useCallback(async () => {
+    const result = await getItemsForCustomerOrder(group.id)
+    if (!result || result.length <= 0) return
+    setItemOrders(result)
   }, [group])
+
+  useEffect(() => {
+    fetchItemOrders()
+  }, [group, fetchItemOrders])
 
   const changeCurrentItems = useCallback(
     (fromitems) => {
@@ -69,12 +71,12 @@ function Group({ group }) {
 
   const saveItem = useCallback(async () => {
     const item = currentItems.find((item) => item.name === refItemSelect.current.value)
-    console.log(currentItems, refItemSelect.current.value)
     const amount = refAmountSelect.current.value
     await createItemOrder(group.id, item.id, +amount)
     refDialog.current.close()
     refDialog.current.classList.toggle("hidden")
-  }, [group, currentItems])
+    await fetchItemOrders()
+  }, [group, currentItems, fetchItemOrders])
 
   return (
     <div className="group">
