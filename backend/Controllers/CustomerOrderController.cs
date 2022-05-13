@@ -3,8 +3,6 @@ using backend.Models;
 
 namespace backend.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
     public class CustomerOrderController : Controller
     {
         private readonly RestaurantContext Context;
@@ -14,10 +12,25 @@ namespace backend.Controllers
             Context = context;
         }
 
-        [HttpPost(Name = "/CreateCustomerOrder")]
+        [Route("/createCustomerOrder")]
+        [HttpPost]
         public int CreateCustomerOrder()
         {
             return Context.CreateCustomerOrder();
+        }
+
+        [Route("/getItemsForCustomerOrder")]
+        [HttpGet]
+        public List<ItemOrder> GetItemsForCustomerOrder(int id)
+        {
+            return Context.GetItemsForCustomerOrder(id);
+        }
+
+        [Route("/getCustomerOrders")]
+        [HttpGet]
+        public List<CustomerOrder> GetCustomerOrders()
+        {
+            return Context.GetCustomerOrders();
         }
     }
 }

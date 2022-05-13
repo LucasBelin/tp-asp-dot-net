@@ -3,8 +3,7 @@ using backend.Models;
 
 namespace backend.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
+
     public class ItemController : Controller
     {
         private readonly RestaurantContext Context;
@@ -14,7 +13,8 @@ namespace backend.Controllers
             Context = context;
         }
 
-        [HttpGet(Name = "/GetAllItems")]
+        [Route("/getItems")]
+        [HttpGet]
         public List<Item> GetAllItems()
         {
             return Context.GetAllItems();

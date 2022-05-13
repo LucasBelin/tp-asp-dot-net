@@ -16,11 +16,12 @@ CREATE TABLE CustomerOrder(
 );
 
 CREATE TABLE ItemOrder(
-  id_item INT,
-  id_order INT,
+  id_item_order INT AUTO_INCREMENT,
+  id_item INT NOT NULL,
+  id_order INT NOT NULL,
   amount int NOT NULL,
   status VARCHAR(50) NOT NULL,
-  PRIMARY KEY(id_item, id_order),
+  PRIMARY KEY(id_item_order),
   FOREIGN KEY(id_item) REFERENCES Item(id_item),
   FOREIGN KEY(id_order) REFERENCES CustomerOrder(id_order)
 );
@@ -50,7 +51,7 @@ INSERT INTO Item VALUES
 (16, 'East India Cocktail', 'DRINK', 15),
 (17, 'Sierra Norte', 'DRINK', 17),
 (18, 'Paloma', 'DRINK', 16),
-(19, 'NV Prosecco  Extra Dry', 'DRINK', 56),
+(19, 'NV Prosecco Extra Dry', 'DRINK', 56),
 (20, 'Semillon', 'DRINK', 84),
 (21, 'Santa Cruz Mountains', 'DRINK', 166);
 
@@ -61,44 +62,44 @@ INSERT INTO CustomerOrder VALUES
 (4, "DELIVERED");
 
 INSERT INTO ItemOrder VALUES
-(1, 1, 1, 'DELIVERED'),
-(6, 1, 1, 'REGISTERED'),
-(11, 1, 1, 'REGISTERED'),
-(16, 1, 1, 'REGISTERED');
+(1, 1, 1, 1, 'DELIVERED'),
+(2, 6, 1, 1, 'REGISTERED'),
+(3, 11, 1, 1, 'REGISTERED'),
+(4, 16, 1, 1, 'REGISTERED');
 
 INSERT INTO ItemOrder VALUES
-(3, 2, 1, 'REGISTERED'),
-(4, 2, 1, 'REGISTERED'),
-(7, 2, 1, 'REGISTERED'),
-(10, 2, 1, 'REGISTERED'),
-(13, 2, 2, 'REGISTERED'),
-(21, 2, 1, 'REGISTERED');
+(5, 3, 2, 1, 'REGISTERED'),
+(6, 4, 2, 1, 'REGISTERED'),
+(7, 7, 2, 1, 'REGISTERED'),
+(8, 10, 2, 1, 'REGISTERED'),
+(9, 13, 2, 2, 'REGISTERED'),
+(10, 21, 2, 1, 'REGISTERED');
 
 INSERT INTO ItemOrder VALUES
-(2, 3, 1, 'DELIVERED'),
-(3, 3, 2, 'DELIVERED'),
-(8, 3, 1, 'DELIVERED'),
-(9, 3, 1, 'DELIVERED'),
-(10, 3, 1, 'DELIVERED'),
-(11, 3, 1, 'REGISTERED'),
-(14, 3, 1, 'REGISTERED'),
-(15, 3, 1, 'REGISTERED'),
-(16, 3, 3, 'REGISTERED'),
-(19, 3, 2, 'REGISTERED');
+(11, 2, 3, 1, 'DELIVERED'),
+(12, 3, 3, 2, 'DELIVERED'),
+(13, 8, 3, 1, 'DELIVERED'),
+(14, 9, 3, 1, 'DELIVERED'),
+(15, 10, 3, 1, 'DELIVERED'),
+(16, 11, 3, 1, 'REGISTERED'),
+(17, 14, 3, 1, 'REGISTERED'),
+(18, 15, 3, 1, 'REGISTERED'),
+(19, 16, 3, 3, 'REGISTERED'),
+(20, 19, 3, 2, 'REGISTERED');
 
 INSERT INTO ItemOrder VALUES
-(1, 4, 1, 'DELIVERED'),
-(4, 4, 1, 'DELIVERED');
+(21, 1, 4, 1, 'DELIVERED'),
+(22, 4, 4, 1, 'DELIVERED');
 
 INSERT INTO ItemOrder VALUES
-(8, 4, 1, 'DELIVERED'),
-(9, 4, 1, 'DELIVERED');
+(23, 8, 4, 1, 'DELIVERED'),
+(24, 9, 4, 1, 'DELIVERED');
 
 INSERT INTO ItemOrder VALUES
-(15, 4, 1, 'DELIVERED');
+(25, 15, 4, 1, 'DELIVERED');
 
 INSERT INTO ItemOrder VALUES
-(16, 4, 2, 'DELIVERED');
+(26, 16, 4, 2, 'DELIVERED');
 
 
 -- Test queries
