@@ -4,6 +4,7 @@ body {
   background-image: url("/public/blob-haikei.svg");
   background-size: cover;
   color: white;
+  overflow-x: hidden;
 }
 
 .App {
@@ -48,4 +49,23 @@ body {
 .search-btn:hover {
   background-color: #333;
   color: white;
+}
+
+.striped {
+  align-self: center;
+  font-size: 64px;
+  background-size: 64px;
+  background-clip: text;
+  color: transparent;
+  background-color: #333;
+  background-image: linear-gradient(
+    45deg,
+    rgba(225, 198, 153, 0.51) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(225, 198, 153, 0.51) 50%,
+    rgba(225, 198, 153, 0.51) 75%,
+    transparent 75%,
+    transparent
+  );
 }
