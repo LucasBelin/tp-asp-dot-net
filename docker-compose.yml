@@ -5,6 +5,8 @@ services:
     build:
       context: db
       dockerfile: Dockerfile
+    cap_add:
+      - SYS_NICE
     ports:
       - "3306:3306"
   frontend:
