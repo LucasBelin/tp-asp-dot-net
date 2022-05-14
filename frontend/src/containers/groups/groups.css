@@ -20,6 +20,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .groups-title {
@@ -52,4 +53,12 @@
 .groups-top button:hover {
   color: white;
   background-color: #333;
+}
+
+.spinner-container {
+  align-self: center;
+  width: 100px;
+  height: 100px;
+  transform: translateX(25%);
+  margin-top: 1rem;
 }

@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export async function createCustomerOrder() {
-  axios({
+  return axios({
     method: "post",
     url: "http://localhost:5000/createCustomerOrder",
   }).catch((err) => console.log(err))

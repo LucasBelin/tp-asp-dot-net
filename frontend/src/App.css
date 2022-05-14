@@ -3,6 +3,8 @@ body {
   height: 100vh;
   background-image: url("/public/blob-haikei.svg");
   background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #00101c;
   color: white;
   overflow-x: hidden;
 }
@@ -13,6 +15,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  position: relative;
 }
 
 .title {

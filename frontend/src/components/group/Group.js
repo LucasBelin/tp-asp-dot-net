@@ -12,13 +12,14 @@ function Group({ group }) {
   const refAmountSelect = useRef()
 
   const [itemOrders, setItemOrders] = useState([])
-  const [items, setItems] = useState([])
+  const [menuItems, setMenuItems] = useState([])
   const [currentItems, setCurrentItems] = useState([])
 
   const fetchItemOrders = useCallback(async () => {
     const result = await getItemsForCustomerOrder(group.id)
-    if (!result || result.length <= 0) return
+    if (!result || result.length <= 0) return result
     setItemOrders(result)
+    return result
   }, [group])
 
   useEffect(() => {
@@ -26,32 +27,9 @@ function Group({ group }) {
   }, [group, fetchItemOrders])
 
   const changeCurrentItems = useCallback(
-    (fromitems) => {
-      if (!fromitems || fromitems.length <= 0) return
-      switch (refTypeSelect.current.value) {
-        case "STARTER":
-          setCurrentItems(() => {
-            return fromitems.filter((item) => item.type === "STARTER")
-          })
-          break
-        case "DISH":
-          setCurrentItems(() => {
-            return fromitems.filter((item) => item.type === "DISH")
-          })
-          break
-        case "DESSERT":
-          setCurrentItems(() => {
-            return fromitems.filter((item) => item.type === "DESSERT")
-          })
-          break
-        case "DRINK":
-          setCurrentItems(() => {
-            return fromitems.filter((item) => item.type === "DRINK")
-          })
-          break
-        default:
-          throw new Error(`${refTypeSelect.current.value} is not supported`)
-      }
+    (fromItems) => {
+      if (!fromItems || fromItems.length <= 0) return
+      setCurrentItems(fromItems.filter((item) => item.type === refTypeSelect.current.value))
     },
     [setCurrentItems],
   )
@@ -60,7 +38,7 @@ function Group({ group }) {
     refDialog.current.showModal()
     refDialog.current.classList.toggle("hidden")
     const fetchedItems = await getItems()
-    setItems(fetchedItems)
+    setMenuItems(fetchedItems)
     changeCurrentItems(fetchedItems)
   }, [refDialog, changeCurrentItems])
 
@@ -72,10 +50,13 @@ function Group({ group }) {
   const saveItem = useCallback(async () => {
     const item = currentItems.find((item) => item.name === refItemSelect.current.value)
     const amount = refAmountSelect.current.value
-    await createItemOrder(group.id, item.id, +amount)
+
+    await createItemOrder(group.id, item.id, +amount).then(() => {
+      fetchItemOrders()
+    })
+
     refDialog.current.close()
     refDialog.current.classList.toggle("hidden")
-    await fetchItemOrders()
   }, [group, currentItems, fetchItemOrders])
 
   return (
@@ -107,7 +88,7 @@ function Group({ group }) {
             id="type"
             ref={refTypeSelect}
             onChange={() => {
-              changeCurrentItems(items)
+              changeCurrentItems(menuItems)
             }}
           >
             <option value="STARTER">STARTERS</option>
