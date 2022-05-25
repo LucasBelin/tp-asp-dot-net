@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState, useEffect } from "react"
-import "./group.css"
-import Order from "../../components/order/Order"
+import "./customer-order.css"
+import Order from "../order/Order"
 import { getItems } from "../../services/items-service"
 import { createItemOrder } from "../../services/item-order-service"
 import {
@@ -8,28 +8,28 @@ import {
   updateCustomerOrderStatus,
 } from "../../services/customer-order-service"
 
-function Group({ group }) {
+function CustomerOrder({ order }) {
   const refDialog = useRef()
   const refItemSelect = useRef()
   const refTypeSelect = useRef()
   const refAmountSelect = useRef()
 
-  const [status, setStatus] = useState(group.status)
+  const [status, setStatus] = useState(order.status)
   const [itemOrders, setItemOrders] = useState([])
   const [menuItems, setMenuItems] = useState([])
   const [currentItems, setCurrentItems] = useState([])
 
   const fetchItemOrders = useCallback(async () => {
-    const result = await getItemsForCustomerOrder(group.id)
+    const result = await getItemsForCustomerOrder(order.id)
     if (!result || result.length <= 0) return result
 
     setItemOrders(result)
     return result
-  }, [group])
+  }, [order])
 
   useEffect(() => {
     fetchItemOrders()
-  }, [group, fetchItemOrders])
+  }, [order, fetchItemOrders])
 
   const changeCurrentItems = useCallback(
     (fromItems) => {
@@ -57,34 +57,36 @@ function Group({ group }) {
     const item = currentItems.find((item) => item.name === refItemSelect.current.value)
     const amount = refAmountSelect.current.value
 
-    const savedItem = await createItemOrder(group.id, item.id, +amount)
+    const savedItem = await createItemOrder(order.id, item.id, +amount)
+    if (!savedItem) return
     setItemOrders([...itemOrders, savedItem])
+    setStatus("ONGOING")
 
     refDialog.current.close()
     refDialog.current.classList.toggle("hidden")
-  }, [group, currentItems, fetchItemOrders])
+  }, [order, currentItems, itemOrders])
 
   const checkOrdersStatus = useCallback(async () => {
     const result = await fetchItemOrders()
     const updatedItemOrders = result.filter((itemOrder) => itemOrder.status !== "DELIVERED")
 
     if (updatedItemOrders.length <= 0) {
-      await updateCustomerOrderStatus(group.id, "DELIVERED")
+      await updateCustomerOrderStatus(order.id, "DELIVERED")
       setStatus("DELIVERED")
       return
     }
 
     if (status !== "ONGOING") {
-      await updateCustomerOrderStatus(group.id, "ONGOING")
+      await updateCustomerOrderStatus(order.id, "ONGOING")
       setStatus("ONGOING")
     }
-  }, [group, status, fetchItemOrders])
+  }, [order, status, fetchItemOrders])
 
   return (
-    <div className="group">
+    <div className="customer-order">
       <div className="top">
         <div className="left">
-          <h2>Order {group.id}</h2>
+          <h2>Order {order.id}</h2>
           <span>({status})</span>
         </div>
         <button onClick={showDialog} className="btn-new-item">
@@ -141,4 +143,4 @@ function Group({ group }) {
   )
 }
 
-export default Group
+export default CustomerOrder

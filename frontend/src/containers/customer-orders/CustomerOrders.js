@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react"
-import "./groups.css"
-import Group from "../../components/group/Group"
+import "./customer-orders.css"
+import CustomerOrder from "../../components/customer-order/CustomerOrder"
 import { createCustomerOrder, getCustomerOrders } from "../../services/customer-order-service"
 import Spinner from "../../components/spinner/Spinner"
 
-function Groups() {
+function CustomerOrders() {
   const [customerOrders, setCustomerOrders] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
@@ -17,9 +17,9 @@ function Groups() {
   }, [setIsLoading, setCustomerOrders])
 
   const onCreateCustomerOrder = useCallback(async () => {
-    const result = await createCustomerOrder()
-    if (!result) return
-    setCustomerOrders([...customerOrders, result])
+    const savedCustomerOrder = await createCustomerOrder()
+    if (!savedCustomerOrder) return
+    setCustomerOrders([...customerOrders, savedCustomerOrder])
   }, [customerOrders, setCustomerOrders])
 
   useEffect(() => {
@@ -28,15 +28,15 @@ function Groups() {
   }, [])
 
   return (
-    <div className="groups">
-      <div className="groups-top">
-        <h2 className="groups-title">Orders</h2>
+    <div className="customer-orders">
+      <div className="customer-orders-top">
+        <h2 className="customer-orders-title">Orders</h2>
         <button onClick={onCreateCustomerOrder}>Create order</button>
       </div>
       {!isLoading && (
-        <div className="groups-container">
+        <div className="customer-orders-container">
           {customerOrders.map((order, i) => (
-            <Group group={order} key={i} />
+            <CustomerOrder order={order} key={i} />
           ))}
         </div>
       )}
@@ -49,4 +49,4 @@ function Groups() {
   )
 }
 
-export default Groups
+export default CustomerOrders

@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Oleo+Script+Swash+Caps&display=swap");
 
-.groups {
+.customer-orders {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,12 +10,13 @@
   background-color: rgba(255, 255, 255);
   border-radius: 10px;
   align-self: center;
-  box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075), 0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075),
-    0 8px 8px hsl(0deg 0% 0% / 0.075), 0 16px 16px hsl(0deg 0% 0% / 0.075);
+  box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075), 0 2px 2px hsl(0deg 0% 0% / 0.075),
+    0 4px 4px hsl(0deg 0% 0% / 0.075), 0 8px 8px hsl(0deg 0% 0% / 0.075),
+    0 16px 16px hsl(0deg 0% 0% / 0.075);
   position: relative;
 }
 
-.groups-container {
+.customer-orders-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -23,21 +24,21 @@
   position: relative;
 }
 
-.groups-title {
+.customer-orders-title {
   color: #e1c699;
   font-family: "Oleo Script Swash Caps", cursive;
   font-size: 2.5rem;
   align-self: center;
 }
 
-.groups-top {
+.customer-orders-top {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
 }
 
-.groups-top button {
+.customer-orders-top button {
   position: absolute;
   right: 25px;
   cursor: pointer;
@@ -50,7 +51,7 @@
   transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
 }
 
-.groups-top button:hover {
+.customer-orders-top button:hover {
   color: white;
   background-color: #333;
 }

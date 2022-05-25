@@ -165,6 +165,8 @@ namespace backend.Models
                 cmd.Parameters.AddWithValue("@amount", amount);
                 cmd.ExecuteNonQuery();
                 
+                UpdateCustomerOrderStatus(idCustomerOrder, "ONGOING");
+                
                 Item item = GetitemByid(idItem);
                 return new ItemOrder()
                 {
@@ -176,7 +178,7 @@ namespace backend.Models
             }
         }
 
-        public int UpdateItemOrderStatus(int id, string newStatus)
+        public string UpdateItemOrderStatus(int id, string newStatus)
         {
             using (MySqlConnection conn = GetConnection())
             {
@@ -186,11 +188,12 @@ namespace backend.Models
                 cmd.Parameters.AddWithValue("@newstatus", newStatus);
                 cmd.Parameters.AddWithValue("@idorder", id);
 
-                return cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
+                return newStatus;
             }
         }
         
-        public int UpdateCustomerOrderStatus(int id, string newStatus) {
+        public string UpdateCustomerOrderStatus(int id, string newStatus) {
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
@@ -199,7 +202,8 @@ namespace backend.Models
                 cmd.Parameters.AddWithValue("@newstatus", newStatus);
                 cmd.Parameters.AddWithValue("@id", id);
 
-                return cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
+                return newStatus;
             }
         }
     }
