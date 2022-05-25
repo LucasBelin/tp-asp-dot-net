@@ -1,10 +1,10 @@
 import React, { useCallback, useRef } from "react"
-import "./order.css"
+import "./item-order.css"
 import Item from "../item/Item"
 import Separator from "../separator/Separator"
 import { updateItemOrderStatus } from "../../services/item-order-service"
 
-function Order({ order, checkOrdersStatus }) {
+function ItemOrder({ order, checkOrdersStatus, separator = true }) {
   const statusRef = useRef()
 
   const updateStatus = useCallback(async () => {
@@ -30,9 +30,9 @@ function Order({ order, checkOrdersStatus }) {
           </select>
         </div>
       </div>
-      <Separator />
+      {separator && <Separator />}
     </div>
   )
 }
 
-export default Order
+export default ItemOrder

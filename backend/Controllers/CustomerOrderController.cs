@@ -35,7 +35,7 @@ namespace backend.Controllers
         
         [Route("/updateCustomerOrderStatus")]
         [HttpPut]
-        public int UpdateCustomerOrderStatus(int id, string newStatus) {
+        public string UpdateCustomerOrderStatus(int id, string newStatus) {
             return Context.UpdateCustomerOrderStatus(id, newStatus);
         }
     }

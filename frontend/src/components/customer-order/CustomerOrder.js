@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState, useEffect } from "react"
 import "./customer-order.css"
-import Order from "../order/Order"
+import ItemOrder from "../item-order/ItemOrder"
 import { getItems } from "../../services/items-service"
 import { createItemOrder } from "../../services/item-order-service"
 import {
@@ -57,14 +57,14 @@ function CustomerOrder({ order }) {
     const item = currentItems.find((item) => item.name === refItemSelect.current.value)
     const amount = refAmountSelect.current.value
 
-    const savedItem = await createItemOrder(order.id, item.id, +amount)
-    if (!savedItem) return
-    setItemOrders([...itemOrders, savedItem])
-    setStatus("ONGOING")
+    await createItemOrder(order.id, item.id, +amount)
+    //TODO fix new item status is incorrect
+    await fetchItemOrders()
+    if (status !== "ONGOING") setStatus("ONGOING")
 
     refDialog.current.close()
     refDialog.current.classList.toggle("hidden")
-  }, [order, currentItems, itemOrders])
+  }, [order, currentItems, itemOrders, status, fetchItemOrders])
 
   const checkOrdersStatus = useCallback(async () => {
     const result = await fetchItemOrders()
@@ -97,7 +97,12 @@ function CustomerOrder({ order }) {
         {itemOrders &&
           itemOrders.length > 0 &&
           itemOrders.map((order, i) => (
-            <Order order={order} key={i} checkOrdersStatus={checkOrdersStatus} />
+            <ItemOrder
+              order={order}
+              key={i}
+              checkOrdersStatus={checkOrdersStatus}
+              separator={i !== itemOrders.length - 1}
+            />
           ))}
       </div>
 
