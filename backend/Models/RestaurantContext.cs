@@ -54,6 +54,27 @@ namespace backend.Models
             return items;
         }
 
+        public Item GetitemByid(int id) {
+            using(MySqlConnection conn = GetConnection()) {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("select * from Item where id_item = @id", conn);
+                cmd.Parameters.AddWithValue("@id", id);
+                using(var reader = cmd.ExecuteReader()) 
+                {
+                    while(reader.Read()) 
+                    {
+                        return new Item() 
+                        {
+                            Id = reader.GetInt32("id_item"),
+                            Name = reader.GetString("name"),
+                            Type = reader.GetString("type"),
+                            Price = reader.GetInt32("price")
+                        };
+                    }
+                }
+            }
+            throw new Exception("No item with id: " + id);
+        }
         
 
         public List<ItemOrder> GetItemsForCustomerOrder(int id)
@@ -117,18 +138,24 @@ namespace backend.Models
             return orders;
         }
 
-        public int CreateCustomerOrder()
+        public CustomerOrder CreateCustomerOrder()
         {
             using(MySqlConnection conn = GetConnection())
             {
                 conn.Open();
                 string query = "INSERT INTO CustomerOrder VALUES(0, 'ONGOING')";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
-                return cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
+                return new CustomerOrder()
+                {
+                    Id = (int)cmd.LastInsertedId,
+                    Orders = new(),
+                    Status = "ONGOING"
+                };
             }
         }
         
-        public int CreateItemOrder(int idCustomerOrder, int idItem, int amount) {
+        public ItemOrder CreateItemOrder(int idCustomerOrder, int idItem, int amount) {
             using(MySqlConnection conn = GetConnection()) {
                 conn.Open();
                 string query = "INSERT INTO ItemOrder VALUES(0, @iditem, @idorder, @amount, 'REGISTERED')";
@@ -136,7 +163,16 @@ namespace backend.Models
                 cmd.Parameters.AddWithValue("@iditem", idItem);
                 cmd.Parameters.AddWithValue("@idorder", idCustomerOrder);
                 cmd.Parameters.AddWithValue("@amount", amount);
-                return cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
+                
+                Item item = GetitemByid(idItem);
+                return new ItemOrder()
+                {
+                    Id = (int)cmd.LastInsertedId,
+                    Item = item,
+                    Amount = amount,
+                    Status = "REGISTERED"
+                };
             }
         }
 
@@ -149,6 +185,19 @@ namespace backend.Models
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@newstatus", newStatus);
                 cmd.Parameters.AddWithValue("@idorder", id);
+
+                return cmd.ExecuteNonQuery();
+            }
+        }
+        
+        public int UpdateCustomerOrderStatus(int id, string newStatus) {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string query = "update CustomerOrder set status = @newstatus where id_order = @id";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@newstatus", newStatus);
+                cmd.Parameters.AddWithValue("@id", id);
 
                 return cmd.ExecuteNonQuery();
             }

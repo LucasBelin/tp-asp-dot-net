@@ -14,7 +14,7 @@ namespace backend.Controllers
 
         [Route("/createItemOrder")]
         [HttpPost]
-        public int CreateItemOrder(int idCustomerOrder, int idItem, int amount)
+        public ItemOrder CreateItemOrder(int idCustomerOrder, int idItem, int amount)
         {
             return Context.CreateItemOrder(idCustomerOrder, idItem, amount);
         }

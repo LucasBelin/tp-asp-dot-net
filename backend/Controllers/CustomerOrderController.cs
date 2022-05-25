@@ -14,7 +14,7 @@ namespace backend.Controllers
 
         [Route("/createCustomerOrder")]
         [HttpPost]
-        public int CreateCustomerOrder()
+        public CustomerOrder CreateCustomerOrder()
         {
             return Context.CreateCustomerOrder();
         }
@@ -31,6 +31,12 @@ namespace backend.Controllers
         public List<CustomerOrder> GetCustomerOrders()
         {
             return Context.GetCustomerOrders();
+        }
+        
+        [Route("/updateCustomerOrderStatus")]
+        [HttpPut]
+        public int UpdateCustomerOrderStatus(int id, string newStatus) {
+            return Context.UpdateCustomerOrderStatus(id, newStatus);
         }
     }
 }
