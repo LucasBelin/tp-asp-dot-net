@@ -4,7 +4,11 @@ export async function createCustomerOrder() {
   return axios({
     method: "post",
     url: "http://localhost:5000/createCustomerOrder",
-  }).catch((err) => console.log(err))
+  })
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => console.log(err))
 }
 
 export async function getCustomerOrders() {
@@ -24,6 +28,21 @@ export async function getItemsForCustomerOrder(id) {
     url: "http://localhost:5000/getItemsForCustomerOrder",
     params: {
       id,
+    },
+  })
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => console.log(err))
+}
+
+export async function updateCustomerOrderStatus(id, newStatus) {
+  return axios({
+    method: "put",
+    url: "http://localhost:5000/updateCustomerOrderStatus",
+    params: {
+      id,
+      newStatus,
     },
   })
     .then((res) => {
