@@ -17,7 +17,7 @@ function CustomerOrder({ order }) {
   const [status, setStatus] = useState(order.status)
   const [itemOrders, setItemOrders] = useState([])
   const [menuItems, setMenuItems] = useState([])
-  const [currentItems, setCurrentItems] = useState([])
+  const [dropdownItems, setDropdownItems] = useState([])
 
   const fetchItemOrders = useCallback(async () => {
     const result = await getItemsForCustomerOrder(order.id)
@@ -31,12 +31,12 @@ function CustomerOrder({ order }) {
     fetchItemOrders()
   }, [order, fetchItemOrders])
 
-  const changeCurrentItems = useCallback(
+  const changeDropdownItems = useCallback(
     (fromItems) => {
       if (!fromItems || fromItems.length <= 0) return
-      setCurrentItems(fromItems.filter((item) => item.type === refTypeSelect.current.value))
+      setDropdownItems(fromItems.filter((item) => item.type === refTypeSelect.current.value))
     },
-    [setCurrentItems],
+    [setDropdownItems],
   )
 
   const showDialog = useCallback(async () => {
@@ -45,8 +45,8 @@ function CustomerOrder({ order }) {
 
     const fetchedItems = await getItems()
     setMenuItems(fetchedItems)
-    changeCurrentItems(fetchedItems)
-  }, [refDialog, changeCurrentItems])
+    changeDropdownItems(fetchedItems)
+  }, [refDialog, changeDropdownItems])
 
   const closeDialog = useCallback(() => {
     refDialog.current.close()
@@ -54,17 +54,16 @@ function CustomerOrder({ order }) {
   }, [])
 
   const saveItem = useCallback(async () => {
-    const item = currentItems.find((item) => item.name === refItemSelect.current.value)
+    const item = dropdownItems.find((item) => item.name === refItemSelect.current.value)
     const amount = refAmountSelect.current.value
 
     await createItemOrder(order.id, item.id, +amount)
-    //TODO fix new item status is incorrect
     await fetchItemOrders()
     if (status !== "ONGOING") setStatus("ONGOING")
 
     refDialog.current.close()
     refDialog.current.classList.toggle("hidden")
-  }, [order, currentItems, itemOrders, status, fetchItemOrders])
+  }, [order, dropdownItems, status, fetchItemOrders])
 
   const checkOrdersStatus = useCallback(async () => {
     const result = await fetchItemOrders()
@@ -94,16 +93,14 @@ function CustomerOrder({ order }) {
         </button>
       </div>
       <div className="orders">
-        {itemOrders &&
-          itemOrders.length > 0 &&
-          itemOrders.map((order, i) => (
-            <ItemOrder
-              order={order}
-              key={i}
-              checkOrdersStatus={checkOrdersStatus}
-              separator={i !== itemOrders.length - 1}
-            />
-          ))}
+        {itemOrders?.map((order, i) => (
+          <ItemOrder
+            order={order}
+            key={i}
+            checkOrdersStatus={checkOrdersStatus}
+            separator={i !== itemOrders.length - 1}
+          />
+        ))}
       </div>
 
       <dialog ref={refDialog} className="dialog hidden">
@@ -113,7 +110,7 @@ function CustomerOrder({ order }) {
         </div>
         <div className="item-select">
           <select name="item" id="item" ref={refItemSelect}>
-            {currentItems.map((item) => (
+            {dropdownItems.map((item) => (
               <option key={item.id}>{item.name}</option>
             ))}
           </select>
@@ -122,7 +119,7 @@ function CustomerOrder({ order }) {
             id="type"
             ref={refTypeSelect}
             onChange={() => {
-              changeCurrentItems(menuItems)
+              changeDropdownItems(menuItems)
             }}
           >
             <option value="STARTER">STARTERS</option>
