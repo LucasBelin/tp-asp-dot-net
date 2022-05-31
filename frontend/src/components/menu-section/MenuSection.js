@@ -1,6 +1,6 @@
 import React from "react"
 import "./menu-section.css"
-import Item from "../../components/item/Item"
+import Item from "../item/Item"
 
 function MenuSection({ title, items }) {
   return (

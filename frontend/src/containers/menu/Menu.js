@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import "./menu.css"
-import MenuSection from "../menu-section/MenuSection"
+import MenuSection from "../../components/menu-section/MenuSection"
 import Separator from "../../components/separator/Separator"
 import { getItems } from "../../services/items-service"
 import Spinner from "../../components/spinner/Spinner"
